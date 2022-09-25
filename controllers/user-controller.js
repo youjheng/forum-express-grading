@@ -38,10 +38,19 @@ const userController = {
     res.redirect('/signin')
   },
   getUser: (req, res, next) => {
-    return User.findByPk(req.params.id, { include: { model: Comment, include: Restaurant } })
+    return User.findByPk(req.params.id, {
+      include: [
+        { model: Comment, include: Restaurant },
+        { model: Restaurant, as: 'FavoritedRestaurants' },
+        { model: User, as: 'Followers' },
+        { model: User, as: 'Followings' }
+      ]
+    })
       .then(user => {
         if (!user) throw new Error("User didn't exist!")
-        res.render('users/profile', { user: user.toJSON() })
+        const isFavorited = user.FavoritedRestaurants.some(f => f.id === req.user.id)
+        const isFollowed = user.Followings.some(d => d.id === req.user.id)
+        res.render('users/profile', { user: user.toJSON(), isFavorited, isFollowed })
       })
       .catch(err => next(err))
   },
