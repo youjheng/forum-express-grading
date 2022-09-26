@@ -48,9 +48,7 @@ const userController = {
     })
       .then(user => {
         if (!user) throw new Error("User didn't exist!")
-        const isFavorited = user.FavoritedRestaurants.some(f => f.id === req.user.id)
-        const isFollowed = user.Followings.some(d => d.id === req.user.id)
-        res.render('users/profile', { user: user.toJSON(), isFavorited, isFollowed })
+        res.render('users/profile', { user: user.toJSON() })
       })
       .catch(err => next(err))
   },
