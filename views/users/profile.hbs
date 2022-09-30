@@ -11,7 +11,7 @@
     <p><strong>{{user.FavoritedRestaurants.length}}</strong> 收藏的餐廳</p>
     <p><strong>{{user.Followers.length}}</strong> followings（追蹤者）</p>
     <p><strong>{{user.Followings.length}}</strong> followers（追隨者）</p>
-    <a class="btn btn-outline-primary mt-3" href="/users/{{user.id}}/edit">Edit</a>
+    {{#ifCond signInUser.id user.id}}<a class="btn btn-outline-primary mt-3" href="/users/{{user.id}}/edit">Edit</a>{{/ifCond}}
   </div>
 </div>
 
